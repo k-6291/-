@@ -1,0 +1,13 @@
+algeria-verte-ui/
+├── index.html                 ← الصفحة الرئيسية (Landing)
+├── login.html                 ← تسجيل الدخول
+├── register.html              ← إنشاء حساب
+├── dashboard-individual.html  ← لوحة الفرد
+├── dashboard-team-leader.html ← لوحة قائد الفريق
+├── admin-dashboard.html       ← لوحة المسؤول
+├── css/
+│   └── style.css              ← ملف CSS موحد
+├── js/
+│   └── main.js                ← JS بسيط (تبديل القوائم، إلخ)
+└── assets/
+    └── (يمكنك لاحقاً إضافة شعارات أو أيقونات)

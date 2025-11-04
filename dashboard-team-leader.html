@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الفريق - الجزائر الخضراء</title>
+  <!-- إصلاح: إزالة المسافات الزائدة في CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f8fafc;
+    }
+
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 280px;
+      background: linear-gradient(180deg, #006633 0%, #004d26 100%);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s;
+      border-right: 3px solid transparent;
+    }
+
+    .sidebar-nav a:hover, .sidebar-nav a.active {
+      background: rgba(255, 255, 255, 0.1);
+      border-right-color: #FFD700;
+    }
+
+    .sidebar-nav i {
+      margin-left: 12px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-right: 280px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-right: 4px solid #006633;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1rem;
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .card-icon.green { background: #10B981; }
+    .card-icon.orange { background: #F59E0B; }
+    .card-icon.blue { background: #3B82F6; }
+    .card-icon.purple { background: #8B5CF6; }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .request-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-right: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .request-item:hover {
+      border-right-color: #006633;
+      background: #f0fdf4;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #006633;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1001;
+      }
+
+      .sidebar {
+        transform: translateX(100%);
+        width: 280px;
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .main-content {
+        margin-right: 0;
+        padding: 1rem;
+      }
+
+      .request-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .request-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .request-actions button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .stats-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- زر الهامبرغر -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- غطاء شبه شفاف -->
+  <div class="overlay" id="overlay"></div>
+
+  <div class="dashboard">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="flex items-center">
+          <i class="fas fa-seedling text-2xl ml-2"></i>
+          <span class="text-xl font-bold">الجزائر الخضراء</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="active">
+          <i class="fas fa-home"></i>
+          <span>لوحة الفريق</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-users"></i>
+          <span>إدارة الأعضاء</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-seedling"></i>
+          <span>زرعت شجرة</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-chart-bar"></i>
+          <span>إحصائيات الفريق</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-list"></i>
+          <span>أشجار الفريق</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>خريطة الأشجار</span>
+        </a>
+        <a href="#">
+          <i class="fas fa-envelope"></i>
+          <span>إرسال إشعار</span>
+        </a>
+        <a href="index.html" class="logout mt-8">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>تسجيل الخروج</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+      <header class="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-800">لوحة الفريق</h1>
+          <p class="text-gray-600">فريقك: <span class="font-bold text-[#006633]">جامعة الجزائر 1</span></p>
+        </div>
+        <div class="flex items-center justify-between w-full md:w-auto">
+          <div class="bg-[#006633] text-white px-3 py-1.5 rounded-lg text-center">
+            <span>🌳 <strong>2,150</strong> شجرة</span>
+          </div>
+          <div class="relative">
+            <img src="https://ui-avatars.com/api/?name=قائد+الفريق&background=006633&color=fff" alt="صورة المستخدم" class="w-10 h-10 rounded-full" />
+            <span class="absolute bottom-0 left-0 w-2.5 h-2.5 bg-green-500 rounded-full border border-white"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- بطاقات الإحصائيات -->
+      <div class="stats-cards">
+        <div class="card">
+          <div class="flex items-center">
+            <div class="card-icon green"><i class="fas fa-users"></i></div>
+            <div>
+              <div class="text-gray-600 text-sm">الأعضاء</div>
+              <div class="text-xl md:text-2xl font-bold">87</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex items-center">
+            <div class="card-icon orange"><i class="fas fa-seedling"></i></div>
+            <div>
+              <div class="text-gray-600 text-sm">هذا الأسبوع</div>
+              <div class="text-xl md:text-2xl font-bold">142</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex items-center">
+            <div class="card-icon blue"><i class="fas fa-trophy"></i></div>
+            <div>
+              <div class="text-gray-600 text-sm">التصنيف الوطني</div>
+              <div class="text-xl md:text-2xl font-bold">#1</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flex items-center">
+            <div class="card-icon purple"><i class="fas fa-calendar-alt"></i></div>
+            <div>
+              <div class="text-gray-600 text-sm">نشاط اليوم</div>
+              <div class="text-xl md:text-2xl font-bold">23</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- طلبات العضوية -->
+      <div class="section">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-lg md:text-xl font-bold text-gray-800">طلبات الانضمام (2)</h2>
+          <span class="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs">جديد</span>
+        </div>
+        <div class="requests space-y-4">
+          <div class="request-item">
+            <div class="flex items-center w-full">
+              <img src="https://ui-avatars.com/api/?name=ليلى+عبدلي&background=8B5CF6&color=fff" alt="صورة المستخدم" class="w-10 h-10 rounded-full ml-3" />
+              <div>
+                <div class="font-bold">ليلى عبدلي</div>
+                <div class="text-xs text-gray-600">طلب الانضمام منذ 2 ساعة</div>
+              </div>
+            </div>
+            <div class="request-actions flex space-x-2 space-x-reverse w-full">
+              <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm">
+                <i class="fas fa-check ml-1"></i> قبول
+              </button>
+              <button class="border border-red-600 text-red-600 px-3 py-2 rounded-lg text-sm hover:bg-red-600 hover:text-white transition">
+                <i class="fas fa-times ml-1"></i> رفض
+              </button>
+            </div>
+          </div>
+          <div class="request-item">
+            <div class="flex items-center w-full">
+              <img src="https://ui-avatars.com/api/?name=Karim+Toumi&background=3B82F6&color=fff" alt="صورة المستخدم" class="w-10 h-10 rounded-full ml-3" />
+              <div>
+                <div class="font-bold">Karim Toumi</div>
+                <div class="text-xs text-gray-600">طلب الانضمام منذ 5 ساعات</div>
+              </div>
+            </div>
+            <div class="request-actions flex space-x-2 space-x-reverse w-full">
+              <button class="bg-green-600 text-white px-3 py-2 rounded-lg text-sm">
+                <i class="fas fa-check ml-1"></i> قبول
+              </button>
+              <button class="border border-red-600 text-red-600 px-3 py-2 rounded-lg text-sm hover:bg-red-600 hover:text-white transition">
+                <i class="fas fa-times ml-1"></i> رفض
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- أحدث النشاطات -->
+      <div class="section">
+        <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-4">أحدث النشاطات</h2>
+        <div class="space-y-3">
+          <div class="flex flex-col md:flex-row md:items-center p-3 bg-green-50 rounded-lg gap-3">
+            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div class="flex-1">
+              <div class="font-medium">أحمد زيدان</div>
+              <div class="text-xs text-gray-600">زرع 5 أشجار زيتون في الحديقة العمومية</div>
+            </div>
+            <div class="text-xs text-gray-500 whitespace-nowrap">منذ 30 دقيقة</div>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center p-3 bg-blue-50 rounded-lg gap-3">
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="flex-1">
+              <div class="font-medium">فاطمة بوعزة</div>
+              <div class="text-xs text-gray-600">انضمت إلى الفريق</div>
+            </div>
+            <div class="text-xs text-gray-500 whitespace-nowrap">منذ ساعتين</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      overlay.style.display = sidebar.classList.contains('active') ? 'block' : 'none';
+    });
+
+    overlay.addEventListener('click', () => {
+      sidebar.classList.remove('active');
+      overlay.style.display = 'none';
+    });
+
+    // إغلاق القائمة عند الضغط على رابط
+    document.querySelectorAll('.sidebar-nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

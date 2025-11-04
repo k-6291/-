@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - الجزائر الخضراء</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(rgba(0, 102, 51, 0.9), rgba(0, 77, 38, 0.9)), url('https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .register-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #006633;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e5e7eb;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active {
+            background: #006633;
+            border-color: #006633;
+            color: white;
+        }
+        
+        .step.completed {
+            background: #10B981;
+            border-color: #10B981;
+            color: white;
+        }
+        
+        .step.completed::after {
+            content: '✓';
+            font-size: 1.2rem;
+        }
+        
+        .step-label {
+            position: absolute;
+            top: 45px;
+            right: 50%;
+            transform: translateX(50%);
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: #6B7280;
+        }
+        
+        .step.active .step-label {
+            color: #006633;
+            font-weight: bold;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-card.selected {
+            border-color: #006633;
+            background-color: #f0fdf4;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="register-card w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden">
+        <!-- الهيدر -->
+        <div class="bg-[#006633] text-white p-6 text-center">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-seedling text-3xl mr-3"></i>
+                <h1 class="text-2xl font-bold">الجزائر الخضراء</h1>
+            </div>
+            <p class="opacity-90">انضم إلى حملتنا الوطنية لزراعة 7 ملايين شجرة</p>
+        </div>
+        
+        <!-- مؤشر الخطوات -->
+        <div class="px-8 pt-6">
+            <div class="step-indicator">
+                <div class="step active" id="step1">
+                    1
+                    <span class="step-label">المعلومات الأساسية</span>
+                </div>
+                <div class="step" id="step2">
+                    2
+                    <span class="step-label">اختيار الفريق</span>
+                </div>
+                <div class="step" id="step3">
+                    3
+                    <span class="step-label">إنشاء الفريق</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- الخطوة 1: المعلومات الأساسية -->
+        <form id="registrationForm" class="p-8">
+            <div class="form-step active" id="step1-form">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">المعلومات الأساسية</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="firstName">الاسم الأول</label>
+                        <div class="input-group">
+                            <input type="text" id="firstName" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="أدخل اسمك الأول" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="lastName">الاسم الأخير</label>
+                        <div class="input-group">
+                            <input type="text" id="lastName" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="أدخل اسمك الأخير" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium" for="email">البريد الإلكتروني</label>
+                    <div class="input-group">
+                        <input type="email" id="email" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="example@email.com" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="password">كلمة المرور</label>
+                        <div class="input-group">
+                            <input type="password" id="password" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="كلمة المرور" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="confirmPassword">تأكيد كلمة المرور</label>
+                        <div class="input-group">
+                            <input type="password" id="confirmPassword" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="أعد إدخال كلمة المرور" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium">نوع الحساب</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-[#006633] transition individual-option">
+                            <input type="radio" name="accountType" value="individual" class="text-[#006633] focus:ring-[#006633]" checked>
+                            <div class="mr-3">
+                                <div class="font-medium">فرد</div>
+                                <div class="text-sm text-gray-600">انضم كفرد إلى فريق قائم</div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center p-4 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-[#006633] transition team-option">
+                            <input type="radio" name="accountType" value="team" class="text-[#006633] focus:ring-[#006633]">
+                            <div class="mr-3">
+                                <div class="font-medium">قائد فريق</div>
+                                <div class="text-sm text-gray-600">أنشئ فريقاً جديداً وقم بإدارته</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <input type="checkbox" id="terms" class="w-4 h-4 text-[#006633] border-gray-300 rounded focus:ring-[#006633]" required>
+                    <label for="terms" class="mr-2 text-gray-700">أوافق على <a href="#" class="text-[#006633] hover:underline">شروط الاستخدام</a> و <a href="#" class="text-[#006633] hover:underline">سياسة الخصوصية</a></label>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="button" class="bg-[#006633] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004d26] transition duration-300 next-step" data-next="2">
+                        التالي <i class="fas fa-arrow-left mr-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- الخطوة 2: اختيار الفريق -->
+            <div class="form-step" id="step2-form">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">اختيار الفريق</h2>
+                <p class="text-gray-600 mb-6">اختر الفريق الذي ترغب في الانضمام إليه أو أنشئ فريقاً جديداً</p>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium" for="searchTeam">ابحث عن فريق</label>
+                    <div class="input-group">
+                        <input type="text" id="searchTeam" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="ابحث باسم الفريق أو المنطقة">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium">الفرق المتاحة في منطقتك</label>
+                    <div class="grid grid-cols-1 gap-4 max-h-60 overflow-y-auto p-2">
+                        <div class="team-card border-2 border-gray-200 rounded-lg p-4" data-team="1">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="https://ui-avatars.com/api/?name=أخضر+الجزائر&background=006633&color=fff" alt="شعار الفريق" class="w-12 h-12 rounded-full ml-3">
+                                    <div>
+                                        <div class="font-bold">أخضر الجزائر</div>
+                                        <div class="text-sm text-gray-600">البليدة • 87 عضو</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-600 font-bold">12,458 شجرة</div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-card border-2 border-gray-200 rounded-lg p-4" data-team="2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="https://ui-avatars.com/api/?name=أيدي+الخير&background=3B82F6&color=fff" alt="شعار الفريق" class="w-12 h-12 rounded-full ml-3">
+                                    <div>
+                                        <div class="font-bold">أيدي الخير</div>
+                                        <div class="text-sm text-gray-600">تيزي وزو • 32 عضو</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-600 font-bold">10,235 شجرة</div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-card border-2 border-gray-200 rounded-lg p-4" data-team="3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="https://ui-avatars.com/api/?name=شباب+البيئة&background=10B981&color=fff" alt="شعار الفريق" class="w-12 h-12 rounded-full ml-3">
+                                    <div>
+                                        <div class="font-bold">شباب البيئة</div>
+                                        <div class="text-sm text-gray-600">قسنطينة • 28 عضو</div>
+                                    </div>
+                                </div>
+                                <div class="text-green-600 font-bold">9,874 شجرة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#006633] transition create-team-option">
+                        <input type="radio" name="teamChoice" value="create" class="text-[#006633] focus:ring-[#006633]">
+                        <div class="mr-3">
+                            <div class="font-medium">إنشاء فريق جديد</div>
+                            <div class="text-sm text-gray-600">أنشئ فريقك الخاص وادعُ الآخرين للانضمام</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button type="button" class="border border-[#006633] text-[#006633] px-6 py-3 rounded-lg font-bold hover:bg-[#006633] hover:text-white transition duration-300 prev-step" data-prev="1">
+                        <i class="fas fa-arrow-right ml-2"></i> السابق
+                    </button>
+                    <button type="button" class="bg-[#006633] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004d26] transition duration-300 next-step" data-next="3">
+                        التالي <i class="fas fa-arrow-left mr-2"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- الخطوة 3: إنشاء الفريق -->
+            <div class="form-step" id="step3-form">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">إنشاء فريق جديد</h2>
+                <p class="text-gray-600 mb-6">أكمل معلومات فريقك الجديد</p>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium" for="teamName">اسم الفريق</label>
+                    <div class="input-group">
+                        <input type="text" id="teamName" class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" placeholder="أدخل اسم فريقك">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium" for="teamDescription">وصف الفريق</label>
+                    <textarea id="teamDescription" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent" rows="3" placeholder="صف هدف فريقك ونشاطاته"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="teamType">نوع الفريق</label>
+                        <select id="teamType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent">
+                            <option value="">اختر نوع الفريق</option>
+                            <option value="university">فريق جامعي</option>
+                            <option value="school">فريق مدرسي</option>
+                            <option value="association">جمعية</option>
+                            <option value="volunteer">مجموعة تطوعية</option>
+                            <option value="neighborhood">فريق حي</option>
+                            <option value="other">آخر</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2 font-medium" for="teamRegion">المنطقة</label>
+                        <select id="teamRegion" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#006633] focus:border-transparent">
+                            <option value="">اختر منطقتك</option>
+                            <option value="algiers">الجزائر العاصمة</option>
+                            <option value="blida">البليدة</option>
+                            <option value="tizi_ouzou">تيزي وزو</option>
+                            <option value="constantine">قسنطينة</option>
+                            <option value="oran">وهران</option>
+                            <option value="annaba">عنابة</option>
+                            <option value="batna">باتنة</option>
+                            <option value="setif">سطيف</option>
+                            <option value="djelfa">الجلفة</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 mb-2 font-medium">شعار الفريق</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-3"></i>
+                        <div class="font-medium">اسحب وأفلت صورة الشعار هنا</div>
+                        <div class="text-sm text-gray-600">أو <span class="text-[#006633] cursor-pointer">اختر من جهازك</span></div>
+                        <input type="file" class="hidden" id="teamLogo">
+                    </div>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button type="button" class="border border-[#006633] text-[#006633] px-6 py-3 rounded-lg font-bold hover:bg-[#006633] hover:text-white transition duration-300 prev-step" data-prev="2">
+                        <i class="fas fa-arrow-right ml-2"></i> السابق
+                    </button>
+                    <button type="submit" class="bg-[#006633] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004d26] transition duration-300 flex items-center">
+                        <i class="fas fa-check ml-2"></i> إنشاء الحساب
+                    </button>
+                </div>
+            </div>
+        </form>
+        
+        <div class="text-center pb-6">
+            <p class="text-gray-600">لديك حساب بالفعل؟ 
+                <a href="login.html" class="text-[#006633] font-bold hover:underline">سجل الدخول</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // عناصر التحكم في الخطوات
+            const steps = document.querySelectorAll('.step');
+            const formSteps = document.querySelectorAll('.form-step');
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const accountTypeRadios = document.querySelectorAll('input[name="accountType"]');
+            const teamCards = document.querySelectorAll('.team-card');
+            const createTeamOption = document.querySelector('.create-team-option');
+            const teamChoiceRadios = document.querySelectorAll('input[name="teamChoice"]');
+            
+            let currentStep = 1;
+            
+            // تحديث عرض الخطوات
+            function updateStepsDisplay() {
+                steps.forEach((step, index) => {
+                    if (index + 1 < currentStep) {
+                        step.classList.remove('active');
+                        step.classList.add('completed');
+                    } else if (index + 1 === currentStep) {
+                        step.classList.add('active');
+                        step.classList.remove('completed');
+                    } else {
+                        step.classList.remove('active', 'completed');
+                    }
+                });
+                
+                formSteps.forEach((formStep, index) => {
+                    if (index + 1 === currentStep) {
+                        formStep.classList.add('active');
+                    } else {
+                        formStep.classList.remove('active');
+                    }
+                });
+            }
+            
+            // الانتقال للخطوة التالية
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const nextStep = parseInt(this.getAttribute('data-next'));
+                    
+                    // التحقق من صحة البيانات قبل الانتقال
+                    if (validateStep(currentStep)) {
+                        currentStep = nextStep;
+                        updateStepsDisplay();
+                    }
+                });
+            });
+            
+            // العودة للخطوة السابقة
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const prevStep = parseInt(this.getAttribute('data-prev'));
+                    currentStep = prevStep;
+                    updateStepsDisplay();
+                });
+            });
+            
+            // اختيار نوع الحساب
+            accountTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'individual') {
+                        document.getElementById('step2').querySelector('.step-label').textContent = 'اختيار الفريق';
+                        document.getElementById('step3').querySelector('.step-label').textContent = 'تأكيد المعلومات';
+                    } else {
+                        document.getElementById('step2').querySelector('.step-label').textContent = 'معلومات الفريق';
+                        document.getElementById('step3').querySelector('.step-label').textContent = 'إنشاء الفريق';
+                    }
+                });
+            });
+            
+            // اختيار فريق
+            teamCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    teamCards.forEach(c => c.classList.remove('selected', 'border-[#006633]'));
+                    this.classList.add('selected', 'border-[#006633]');
+                    
+                    // تحديد زر الاختيار
+                    teamChoiceRadios.forEach(radio => {
+                        if (radio.value !== 'create') {
+                            radio.checked = true;
+                        }
+                    });
+                });
+            });
+            
+            // اختيار إنشاء فريق جديد
+            createTeamOption.addEventListener('click', function() {
+                teamCards.forEach(c => c.classList.remove('selected', 'border-[#006633]'));
+                
+                // تحديد زر الاختيار
+                teamChoiceRadios.forEach(radio => {
+                    if (radio.value === 'create') {
+                        radio.checked = true;
+                    }
+                });
+            });
+            
+            // التحقق من صحة البيانات في كل خطوة
+            function validateStep(step) {
+                let isValid = true;
+                
+                if (step === 1) {
+                    const firstName = document.getElementById('firstName').value;
+                    const lastName = document.getElementById('lastName').value;
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    const terms = document.getElementById('terms').checked;
+                    
+                    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+                        alert('يرجى ملء جميع الحقول المطلوبة');
+                        isValid = false;
+                    } else if (password !== confirmPassword) {
+                        alert('كلمة المرور وتأكيدها غير متطابقتين');
+                        isValid = false;
+                    } else if (!terms) {
+                        alert('يرجى الموافقة على الشروط والأحكام');
+                        isValid = false;
+                    }
+                } else if (step === 2) {
+                    const accountType = document.querySelector('input[name="accountType"]:checked').value;
+                    const teamChoice = document.querySelector('input[name="teamChoice"]:checked');
+                    
+                    if (accountType === 'individual' && !teamChoice) {
+                        alert('يرجى اختيار فريق للانضمام إليه أو إنشاء فريق جديد');
+                        isValid = false;
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // إرسال النموذج
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateStep(3)) {
+                    // هنا يمكن إضافة كود إرسال البيانات إلى الخادم
+                    alert('تم إنشاء الحساب بنجاح! سيتم توجيهك إلى لوحة التحكم.');
+                    // توجيه المستخدم إلى لوحة التحكم
+                    // window.location.href = 'dashboard.html';
+                }
+            });
+            
+            // تهيئة العرض الأولي
+            updateStepsDisplay();
+        });
+    </script>
+</body>
+</html>

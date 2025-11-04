@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الجزائر الخضراء - حملة زراعة 7 ملايين شجرة</title>
+  <!-- إصلاح: إزالة المسافات الزائدة -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f8fafc;
+    }
+    
+    .hero-section {
+      background: linear-gradient(rgba(0, 102, 51, 0.8), rgba(0, 77, 38, 0.8)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .tree-counter {
+      background: linear-gradient(135deg, #006633 0%, #004d26 100%);
+      box-shadow: 0 10px 30px rgba(0, 102, 51, 0.3);
+    }
+    
+    .feature-card {
+      transition: all 0.4s ease;
+      border-right: 4px solid transparent;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      border-right-color: #006633;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .leaderboard-item {
+      transition: all 0.3s ease;
+    }
+    
+    .leaderboard-item:hover {
+      background-color: #f0f9f0;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* زر الهامبرغر */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #006633;
+      margin: 3px 0;
+      transition: 0.3s;
+    }
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .nav-menu {
+        position: fixed;
+        top: 100px;
+        right: -100%;
+        flex-direction: column;
+        background: white;
+        width: 80%;
+        height: calc(100vh - 100px);
+        padding: 20px;
+        transition: 0.3s;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        z-index: 999;
+      }
+      .nav-menu.active {
+        right: 0;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 998;
+      }
+      .overlay.active {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- الهيدر -->
+  <header class="fixed inset-x-0 top-0 z-[1000] h-[100px] bg-white/90 backdrop-blur-md shadow-md">
+    <div class="relative h-full container mx-auto px-4 flex items-center justify-between">
+      <!-- الشعار -->
+      <div class="flex items-center">
+        <!-- يمكنك استبدالها بصورة بديلة إذا لم يكن لديك اللوغو -->
+        <div class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold">🌳</div>
+        <span class="mr-2 text-xl font-bold text-[#006633]">الجزائر الخضراء</span>
+      </div>
+
+      <!-- زر الهامبرغر للهاتف -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- القائمة -->
+      <nav id="nav-menu" class="nav-menu flex flex-wrap items-center justify-center gap-6 text-gray-800 font-medium">
+        <a href="#home" class="block py-2">الرئيسية</a>
+        <a href="#about" class="block py-2">عن الحملة</a>
+        <a href="#participate" class="block py-2">كيف تشارك</a>
+        <a href="#leaderboard" class="block py-2">التصنيف</a>
+        <a href="#gallery" class="block py-2">معرض الصور</a>
+        <a href="#contact" class="block py-2">اتصل بنا</a>
+      </nav>
+
+      <!-- أزرار الدخول (مخفي على الجوال) -->
+      <div class="hidden md:flex items-center space-x-4 rtl:space-x-reverse">
+        <a href="login.html" class="bg-[#006633] text-white px-4 py-2 rounded-lg hover:bg-[#004d26] transition text-sm">تسجيل الدخول</a>
+        <a href="register.html" class="border border-[#006633] text-[#006633] px-4 py-2 rounded-lg hover:bg-[#006633] hover:text-white transition text-sm">إنشاء حساب</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- غطاء شبه شفاف للقائمة -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- باقي المحتوى (الذي لديك) -->
+  <!-- ⬇️ انسخ كل باقي HTML من قسم <section id="home"> إلى نهاية </body> من كودك الأصلي ⬇️ -->
+  <!-- (لن أكرره هنا لطوله، لكنه يبقى كما هو) -->
+
+  
+
+
+
+    
+    <!-- قسم البطل -->
+    <section id="home" class="hero-section min-h-screen flex items-center justify-center text-white overflow-hidden mt-[100px]">
+        <div class="container mx-auto px-4 text-center z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 fade-in-up">الجزائر الخضراء</h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90 fade-in-up" style="animation-delay: 0.2s;">
+                حملة وطنية لزراعة 7 ملايين شجرة في 21 مارس
+            </p>
+            
+            <!-- عداد الأشجار -->
+            <div class="tree-counter max-w-2xl mx-auto p-8 rounded-2xl mb-8 fade-in-up" style="animation-delay: 0.4s;">
+                <h2 class="text-2xl mb-4">إجمالي الأشجار المزروعة حتى الآن</h2>
+                <div class="text-5xl md:text-7xl font-bold mb-2" id="totalTrees">3,452,187</div>
+                <div class="w-full bg-white/30 h-4 rounded-full overflow-hidden">
+                    <div class="bg-white h-full rounded-full" style="width: 49%"></div>
+                </div>
+                <p class="mt-2">49% من الهدف (7,000,000 شجرة)</p>
+            </div>
+            
+            <!-- الأزرار -->
+            <div class="flex justify-center space-x-4 rtl:space-x-reverse fade-in-up" style="animation-delay: 0.6s;">
+                <a href="register.html" class="flex items-center gap-2 bg-white text-[#006633] px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition transform hover:scale-105 shadow-lg text-lg pulse-animation">
+                    <i class="fas fa-seedling"></i>
+                    انضم إلى الحملة
+                </a>
+                
+                <a href="login.html" class="flex items-center gap-2 border-2 border-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-[#006633] transition transform hover:scale-105 shadow-lg text-lg">
+                    <i class="fas fa-info-circle"></i>
+                    تسجل الدخول
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم عن الحملة -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-[#006633] mb-4">عن حملة الجزائر الخضراء</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">مبادرة وطنية تهدف إلى تعزيز الغطاء النباتي ومكافحة التصحر في ربوع الوطن</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card bg-gradient-to-br from-green-50 to-white p-8 rounded-2xl text-center">
+                    <div class="text-5xl text-[#006633] mb-4">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">الهدف</h3>
+                    <p class="text-gray-700">زراعة 7 ملايين شجرة في جميع أنحاء الجزائر بحلول 21 مارس</p>
+                </div>
+                
+                <div class="feature-card bg-gradient-to-br from-blue-50 to-white p-8 rounded-2xl text-center">
+                    <div class="text-5xl text-[#006633] mb-4">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">المشاركة</h3>
+                    <p class="text-gray-700">انضم كفرد أو مجموعة وساهم في تحقيق هذا الهدف الوطني</p>
+                </div>
+                
+                <div class="feature-card bg-gradient-to-br from-yellow-50 to-white p-8 rounded-2xl text-center">
+                    <div class="text-5xl text-[#006633] mb-4">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">الفوائد</h3>
+                    <p class="text-gray-700">مكافحة التصحر، تحسين جودة الهواء، والحفاظ على التنوع البيئي</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم كيف تشارك -->
+    <section id="participate" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-[#006633] mb-4">كيف تشارك في الحملة؟</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">خطوات بسيطة لتكون جزءاً من هذه المبادرة الوطنية</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-[#006633] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-bold mb-3">إنشاء حساب</h3>
+                    <p class="text-gray-700">سجل في المنصة كفرد أو مجموعة</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-[#006633] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-bold mb-3">انضم أو أنشئ فريق</h3>
+                    <p class="text-gray-700">انضم إلى فريق قائم أو أنشئ فريقك الخاص</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-[#006633] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-bold mb-3">ازرع وسجل</h3>
+                    <p class="text-gray-700">ازرع الأشجار وسجلها في المنصة مع الصور</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-[#006633] text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-xl font-bold mb-3">تابع التقدم</h3>
+                    <p class="text-gray-700">تابع إنجازك وتقدم الحملة الوطنية</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="register.html" class="inline-flex items-center gap-2 bg-[#006633] text-white px-8 py-4 rounded-lg font-bold hover:bg-[#004d26] transition transform hover:scale-105 shadow-lg text-lg">
+                    <i class="fas fa-user-plus"></i>
+                    ابدأ رحلتك الخضراء الآن
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم التصنيف -->
+    <section id="leaderboard" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-[#006633] mb-4">تصنيف المجموعات الأكثر مشاركة</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">تعرف على المجموعات الرائدة في حملة التشجير</p>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-[#006633] text-white">
+                            <tr>
+                                <th class="py-4 px-6 text-right">الترتيب</th>
+                                <th class="py-4 px-6 text-right">اسم المجموعة</th>
+                                <th class="py-4 px-6 text-right">عدد الأعضاء</th>
+                                <th class="py-4 px-6 text-right">الأشجار المزروعة</th>
+                                <th class="py-4 px-6 text-right">المنطقة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="leaderboard-item border-b">
+                                <td class="py-4 px-6 text-center">
+                                    <span class="bg-yellow-500 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto">1</span>
+                                </td>
+                                <td class="py-4 px-6 font-bold">أخضر الجزائر</td>
+                                <td class="py-4 px-6">45</td>
+                                <td class="py-4 px-6 font-bold text-[#006633]">12,458</td>
+                                <td class="py-4 px-6">ولاية البليدة</td>
+                            </tr>
+                            <tr class="leaderboard-item border-b">
+                                <td class="py-4 px-6 text-center">
+                                    <span class="bg-gray-400 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto">2</span>
+                                </td>
+                                <td class="py-4 px-6 font-bold">أيدي الخير</td>
+                                <td class="py-4 px-6">32</td>
+                                <td class="py-4 px-6 font-bold text-[#006633]">10,235</td>
+                                <td class="py-4 px-6">ولاية تيزي وزو</td>
+                            </tr>
+                            <tr class="leaderboard-item border-b">
+                                <td class="py-4 px-6 text-center">
+                                    <span class="bg-amber-700 text-white rounded-full w-8 h-8 flex items-center justify-center mx-auto">3</span>
+                                </td>
+                                <td class="py-4 px-6 font-bold">شباب البيئة</td>
+                                <td class="py-4 px-6">28</td>
+                                <td class="py-4 px-6 font-bold text-[#006633]">9,874</td>
+                                <td class="py-4 px-6">ولاية قسنطينة</td>
+                            </tr>
+                            <!-- يمكن إضافة المزيد من الصفوف -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="leaderboard.html" class="text-[#006633] font-bold hover:underline">
+                    عرض التصنيف الكامل <i class="fas fa-arrow-left mr-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم معرض الصور -->
+    <section id="gallery" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-[#006633] mb-4">معرض إنجازات الحملة</h2>
+            <p class="text-gray-600 text-center mb-12 max-w-2xl mx-auto">شاهد صوراً من جهود المتطوعين في جميع أنحاء الوطن</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="مجموعة تزرع الأشجار" class="w-full h-64 object-cover">
+                    <div class="p-4 bg-white">
+                        <p class="text-gray-700">مجموعة "أخضر الجزائر" أثناء حملة التشجير في البليدة</p>
+                    </div>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1599008633840-052c7f756385?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="أشجار مزروعة حديثاً" class="w-full h-64 object-cover">
+                    <div class="p-4 bg-white">
+                        <p class="text-gray-700">نتائج جهود المتطوعين في تيزي وزو</p>
+                    </div>
+                </div>
+                
+                <div class="rounded-xl overflow-hidden shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="متطوعين يزرعون الأشجار" class="w-full h-64 object-cover">
+                    <div class="p-4 bg-white">
+                        <p class="text-gray-700">شباب البيئة يزرعون الأشجار في قسنطينة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="gallery.html" class="inline-flex items-center gap-2 bg-[#006633] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#004d26] transition">
+                    <i class="fas fa-images"></i>
+                    عرض المزيد من الصور
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر -->
+    <footer class="bg-[#004d26] text-white pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">الجزائر الخضراء</h3>
+                    <p class="mb-4">مبادرة وطنية تهدف إلى زراعة 7 ملايين شجرة في جميع أنحاء الجزائر، لتعزيز الغطاء النباتي ومكافحة التصحر.</p>
+                    <div class="flex space-x-4 rtl:space-x-reverse">
+                        <a href="#" class="text-white hover:text-green-300 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-green-300 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-green-300 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">روابط سريعة</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="hover:text-green-300 transition">الرئيسية</a></li>
+                        <li><a href="#about" class="hover:text-green-300 transition">عن الحملة</a></li>
+                        <li><a href="#participate" class="hover:text-green-300 transition">كيف تشارك</a></li>
+                        <li><a href="#leaderboard" class="hover:text-green-300 transition">التصنيف</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">الجهات الداعمة</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-green-300 transition">وزارة الفلاحة</a></li>
+                        <li><a href="#" class="hover:text-green-300 transition">وزارة البيئة</a></li>
+                        <li><a href="#" class="hover:text-green-300 transition">الوكالة الوطنية للتشجير</a></li>
+                        <li><a href="#" class="hover:text-green-300 transition">الحماية المدنية</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-4">النشرة البريدية</h3>
+                    <p class="mb-4">اشترك لتصلك آخر أخبار الحملة وتحديثاتها.</p>
+                    <form class="flex">
+                        <input type="email" placeholder="بريدك الإلكتروني" class="p-2 rounded-r-lg rtl:rounded-r-none rtl:rounded-l-lg focus:outline-none text-gray-800 w-full">
+                        <button type="submit" class="bg-green-600 px-4 rounded-l-lg rtl:rounded-l-none rtl:rounded-r-lg hover:bg-green-700 transition">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pt-6 border-t border-green-800 text-center">
+                <p>&copy; 2023 الجزائر الخضراء - حملة زراعة 7 ملايين شجرة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        
+    // تفعيل قائمة الهامبرغر
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
+      overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', () => {
+      navMenu.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    // إغلاق القائمة عند الضغط على رابط
+    document.querySelectorAll('#nav-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+
+    
+
+
+        // عداد الأشجار المتحرك
+        document.addEventListener("DOMContentLoaded", () => {
+            const treeCounter = document.getElementById('totalTrees');
+            const targetTrees = 7000000;
+            let currentTrees = 3452187;
+            
+            // محاكاة زيادة العداد (في التطبيق الحقيقي سيتم جلب البيانات من قاعدة البيانات)
+            setInterval(() => {
+                currentTrees += Math.floor(Math.random() * 10);
+                if (currentTrees > targetTrees) currentTrees = targetTrees;
+                treeCounter.textContent = currentTrees.toLocaleString();
+                
+                // تحديث شريط التقدم
+                const progressBar = document.querySelector('.tree-counter .bg-white');
+                const progressPercent = (currentTrees / targetTrees) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            }, 5000);
+        });
+
+        
+    </script>
+
+  
+</body>
+</html>
